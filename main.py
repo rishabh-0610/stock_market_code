@@ -1,21 +1,25 @@
 # This is a sample Python script.
 # E1HA8Y7PIF1HD8AZ
 
-import yfinance as yf
-import pandas as pd
 import requests
 import constants
-import datetime as dt
 
 
 def main_function():
-    ohlc_complete_data = get_ohlc_data('INFY.BSE')
+    stock_ticker = 'INFY.BSE'
+    message = ""
+    ohlc_complete_data = get_ohlc_data(stock_ticker)
 
     bullish_current_candle = is_bullish_candle(ohlc_complete_data[0], ohlc_complete_data[3])
     bullish_prev_candle = is_bullish_candle(ohlc_complete_data[4], ohlc_complete_data[7])
 
     if is_it_bullish_engulfing(ohlc_complete_data, bullish_current_candle, bullish_prev_candle):
-
+        message = message + "Stock : " + stock_ticker + "\n"
+        message = message + "Bullish Engulfing : TRUE\n"
+        if ohlc_complete_data[8]:
+            message = message + "Good Volume : TRUE"
+        else:
+            message = message + "Good Volume : FALSE"
 
 
 def is_it_bullish_engulfing(ohlc_data, current_bullish, prev_bullish):
